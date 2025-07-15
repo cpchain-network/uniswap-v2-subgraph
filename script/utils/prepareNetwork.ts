@@ -10,6 +10,7 @@ export enum NETWORK {
   BLAST = 'blast-mainnet',
   BSC = 'bsc',
   CELO = 'celo',
+  CPCHAIN_TESTNET = 'cpchain-testnet',
   ETHEREUM = 'ethereum',
   MATIC = 'matic',
   OPTIMISM = 'optimism',
