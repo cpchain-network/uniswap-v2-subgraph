@@ -1,0 +1,4 @@
+V2_SUBGRAPH_NAME="cpchain-testnet-v2"
+V2_SUBGRAPH_VERSION="v0.0.1"
+V2_TOKEN_SUBGRAPH_NAME="cpchain-testnet-v2-tokens"
+V2_TOKEN_SUBGRAPH_VERSION="v0.0.1"
