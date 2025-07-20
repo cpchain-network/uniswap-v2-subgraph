@@ -1,8 +1,8 @@
 import { Address, BigDecimal, BigInt } from '@graphprotocol/graph-ts/index'
 
-export const FACTORY_ADDRESS = '0x2FC7B621aB51108e3108dD0EbCE76cb05545743a'
+export const FACTORY_ADDRESS = '0x593b44b2C309468072A8f4d952a085E25A4E8E48'
 
-export const REFERENCE_TOKEN = '0xCF4825F0dCaEAa158310473C1FFF1980Acb5b9F7' // WETH
+export const REFERENCE_TOKEN = '0xC18eA88732464dc5E38372A7Fb1d30b56Dd0E4d5' // WETH
 
 // Stablecoin pair addresses (actual pair addresses needed)
 export const STABLE_TOKEN_PAIRS: string[] = [
@@ -13,13 +13,13 @@ export const STABLE_TOKEN_PAIRS: string[] = [
 
 // Whitelisted tokens for liquidity tracking
 export const WHITELIST: string[] = [
-  '0xCF4825F0dCaEAa158310473C1FFF1980Acb5b9F7', // WETH
-  '0x35364563485c4f6204677A414b66cb68474F4cD8', // TestToken (stablecoin)
+  '0xC18eA88732464dc5E38372A7Fb1d30b56Dd0E4d5', // WETH
+  '0x4cFBbe212366bf31DF01F5188d759c738a757509', // TestToken (stablecoin)
 ]
 
 // Stablecoin addresses
 export const STABLECOINS: string[] = [
-  '0x35364563485c4f6204677A414b66cb68474F4cD8', // TestToken (stablecoin)
+  '0x4cFBbe212366bf31DF01F5188d759c738a757509', // TestToken (stablecoin)
 ]
 
 // Lower thresholds for testnet
@@ -35,13 +35,13 @@ export class TokenDefinition {
 
 export const STATIC_TOKEN_DEFINITIONS: TokenDefinition[] = [
   {
-    address: Address.fromString('0xCF4825F0dCaEAa158310473C1FFF1980Acb5b9F7'),
+    address: Address.fromString('0xC18eA88732464dc5E38372A7Fb1d30b56Dd0E4d5'),
     symbol: 'WETH',
     name: 'Wrapped Ether',
     decimals: BigInt.fromI32(18),
   },
   {
-    address: Address.fromString('0x35364563485c4f6204677A414b66cb68474F4cD8'),
+    address: Address.fromString('0x4cFBbe212366bf31DF01F5188d759c738a757509'),
     symbol: 'TEST', // Or change to 'USDT', 'USDC' etc. for stablecoin symbols
     name: 'Test Token', // Or change to 'Tether USD', 'USD Coin' etc.
     decimals: BigInt.fromI32(18), // Please confirm actual precision
