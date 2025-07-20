@@ -11,6 +11,7 @@ export enum NETWORK {
   BSC = 'bsc',
   CELO = 'celo',
   CPCHAIN_TESTNET = 'cpchain-testnet',
+  CPCHAIN = 'cpchain',
   ETHEREUM = 'ethereum',
   MATIC = 'matic',
   OPTIMISM = 'optimism',
