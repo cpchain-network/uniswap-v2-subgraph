@@ -1,7 +1,7 @@
 import { exec as execCallback } from 'child_process'
 import * as util from 'util'
 
-import { getAlchemyDeploymentParams, getSubgraphName, prepare } from './prepareNetwork'
+import { getSubgraphName, prepare } from './prepareNetwork'
 
 const exec = util.promisify(execCallback)
 
@@ -18,29 +18,60 @@ export const build = async (network, subgraphType) => {
   await exec(`graph codegen ${subgraphType}-subgraph.yaml`)
 }
 
+export function getLocalDeploymentParams(): {
+  node: string
+  ipfs: string
+  deployKey: string
+} {
+  return {
+    node: 'http://localhost:8020',
+    ipfs: 'http://localhost:5001',
+    deployKey: '',
+  }
+}
+
 export const deploy = async (subgraphType) => {
+  /*
   try {
     await exec('git diff-index --quiet HEAD -- && git diff --quiet || (exit 1)')
   } catch (e) {
     console.log('Error: You have uncommitted changes. Please commit your changes and try again.')
     process.exit(1)
   }
+  */
+
+  try {
+    await exec('git diff-index --quiet HEAD -- && git diff --quiet || (exit 1)')
+  } catch (e) {
+    console.log('Warning: You have uncommitted changes. Continuing with deployment...')
+  }
 
   const { stdout: gitHash } = await exec('git rev-parse --short HEAD')
   const gitHashString = gitHash.toString().trim()
   const subgraphName = getSubgraphName(subgraphType)
-  const { node, ipfs, deployKey } = getAlchemyDeploymentParams()
+  const { node, ipfs } = getLocalDeploymentParams()
 
   try {
-    const { stdout, stderr } = await exec(
-      `graph deploy --node ${node} --ipfs ${ipfs} --deploy-key ${deployKey} --version-label ${gitHashString} ${subgraphName} ${subgraphType}-subgraph.yaml`
-    )
-    if (stderr.includes('Subgraph version already exists')) {
-      console.log('Subgraph version already exists. Please update the version label and try again.')
-      process.exit(1)
+    const createCmd = `graph create --node ${node} ${subgraphName}`
+    console.log(`Creating subgraph: ${createCmd}`)
+    
+    try {
+      await exec(createCmd)
+      console.log('Subgraph created successfully.')
+    } catch (createError) {
+      console.log('Subgraph might already exist, continuing with deployment...')
     }
+
+    const deployCmd = `graph deploy --node ${node} --ipfs ${ipfs} --version-label ${gitHashString} ${subgraphName} ${subgraphType}-subgraph.yaml`
+    console.log(`Deploying subgraph: ${deployCmd}`)
+    
+    const { stdout, stderr } = await exec(deployCmd)
+    
     console.log(stdout)
     console.log('Subgraph deployed successfully.')
+    console.log(`GraphQL endpoint: http://localhost:8000/subgraphs/name/${subgraphName}`)
+    console.log(`GraphiQL interface: http://localhost:8000/subgraphs/name/${subgraphName}/graphql`)
+    
   } catch (e) {
     console.log(e.stdout)
     console.log('Error: Failed to deploy subgraph. Please try again.')
